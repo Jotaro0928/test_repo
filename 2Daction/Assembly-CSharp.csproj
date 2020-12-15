@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="Assets\Script\Enemy_Collision_Check.cs" />
     <Compile Include="Assets\Script\Enemy_Zako1.cs" />
+    <Compile Include="Assets\Script\FadeImage.cs" />
     <Compile Include="Assets\Script\GroundCheck.cs" />
     <Compile Include="Assets\Script\ObjectCollision.cs" />
     <Compile Include="Assets\Script\Player.cs" />
