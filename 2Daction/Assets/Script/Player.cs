@@ -32,6 +32,13 @@ public class Player : MonoBehaviour
     private float dashTime = 0.0f;
     private float beforeKey = 0.0f;
     private string enemyTag = "Enemy";
+    private bool isContinue = false;
+    private float continueTime = 0.0f;
+    private float blinkTime = 0.0f;
+    private SpriteRenderer sr = null;
+    private bool nonDownAnim = false;
+    private string deadAreaTag = "DeadArea";
+    private string hitAreaTag = "HitArea";
     #endregion
 
     /// <summary>
@@ -161,6 +168,29 @@ public class Player : MonoBehaviour
         anim.SetBool("ground", isGround);
         anim.SetBool("run", isRun);       
     }
+    /// <summary>
+    /// やられた時の処理
+    /// </summary>
+    private void ReceiveDamage(bool downAnim)
+    {
+        if (isDown)
+        {
+            return;
+        }
+        else
+        {
+            if (downAnim)
+            {
+                anim.Play("player_down");
+            }
+            else
+            {
+                nonDownAnim = true;
+            }
+            isDown = true;
+            GManager.instance.SubHeartNum();
+        }
+    }
 
     #region//接触判定   
     private void OnCollisionEnter2D(Collision2D collision)
@@ -194,25 +224,123 @@ public class Player : MonoBehaviour
                 else
                 {
                     //ダウンする
+                    /*
                     anim.Play("player_down");
-                    isDown = true;
+                    isDown = true;*/
+                    ReceiveDamage(true);
                     break;
                 }
             }
         }
     }
     #endregion
+
+    /// <summary>
+    /// コンティニュー待機状態か
+    /// </summary>
+    /// <returns></returns>
+    public bool IsContinueWaiting()
+    {
+        if (GManager.instance.isGameOver)  
+        {
+            return false;
+        }
+        else
+        {
+            return IsDownAnimEnd() || nonDownAnim;  
+        }
+    }
+
+    //ダウンアニメーションが完了しているかどうか
+    private bool IsDownAnimEnd()
+    {
+        if (isDown && anim != null)
+        {
+            AnimatorStateInfo currentState = anim.GetCurrentAnimatorStateInfo(0);
+            if (currentState.IsName("player_down"))
+            {
+                if (currentState.normalizedTime >= 1)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// コンティニューする
+    /// </summary>
+    public void ContinuePlayer()
+    {
+        isDown = false;
+        anim.Play("player_stand");
+        isJump = false;
+        isOtherJump = false;
+        isRun = false;
+        isContinue = true;
+        nonDownAnim = false;
+    }
+    
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == deadAreaTag)
+        {
+            ReceiveDamage(false);
+        }
+        else if (collision.tag == hitAreaTag)
+        {
+            ReceiveDamage(true);
+        }
+    }
+
     void Start()
     {
         //コンポーネントのインスタンスを捕まえる
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         capcol = GetComponent<CapsuleCollider2D>();
+        sr = GetComponent<SpriteRenderer>();
     }
+    private void Update()
+    {
+        if (isContinue)
+        {
+            //明滅　ついている時に戻る
+            if (blinkTime > 0.2f)
+            {
+                sr.enabled = true;
+                blinkTime = 0.0f;
+            }
+            //明滅　消えているとき
+            else if (blinkTime > 0.1f)
+            {
+                sr.enabled = false;
+            }
+            //明滅　ついているとき
+            else
+            {
+                sr.enabled = true;
+            }
 
+            //1秒たったら明滅終わり
+            if (continueTime > 1.0f)
+            {
+                isContinue = false;
+                blinkTime = 0f;
+                continueTime = 0f;
+                sr.enabled = true;
+            }
+            else
+            {
+                blinkTime += Time.deltaTime;
+                continueTime += Time.deltaTime;
+            }
+        }
+    }
     void FixedUpdate()
     {
-        if (!isDown)
+        if (!isDown  && !GManager.instance.isGameOver)
         {
             //接地判定を得る
             isGround = ground.IsGround();
