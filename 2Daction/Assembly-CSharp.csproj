@@ -66,9 +66,15 @@
     <Compile Include="Assets\Script\Enemy_Collision_Check.cs" />
     <Compile Include="Assets\Script\Enemy_Zako1.cs" />
     <Compile Include="Assets\Script\FadeImage.cs" />
+    <Compile Include="Assets\Script\GManager.cs" />
     <Compile Include="Assets\Script\GroundCheck.cs" />
+    <Compile Include="Assets\Script\Heart.cs" />
     <Compile Include="Assets\Script\ObjectCollision.cs" />
     <Compile Include="Assets\Script\Player.cs" />
+    <Compile Include="Assets\Script\PlayerTriggerCheck.cs" />
+    <Compile Include="Assets\Script\Score.cs" />
+    <Compile Include="Assets\Script\ScoreItem.cs" />
+    <Compile Include="Assets\Script\StageNum.cs" />
     <Compile Include="Assets\Script\Title.cs" />
     <Reference Include="UnityEngine">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.1f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>

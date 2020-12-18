@@ -6,6 +6,7 @@ public class Enemy_Zako1 : MonoBehaviour
 {
     // Start is called before the first frame update
     #region//インスペクターで設定する
+    [Header("加算スコア")] public int myScore;
     [Header("移動速度")] public float speed;
     [Header("重力")] public float gravity;
     [Header("画面外でも行動する")] public bool nonVisibleAct;
@@ -63,6 +64,11 @@ public class Enemy_Zako1 : MonoBehaviour
         {
             if (!isDead)
             {
+                if (GManager.instance != null)
+                {
+
+                    GManager.instance.score += myScore;
+                }
                 anim.Play("zako1_dead");
                 rb.velocity = new Vector2(0, -gravity);
                 isDead = true;
