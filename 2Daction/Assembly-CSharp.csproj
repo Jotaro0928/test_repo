@@ -74,6 +74,7 @@
     <Compile Include="Assets\Script\PlayerTriggerCheck.cs" />
     <Compile Include="Assets\Script\Score.cs" />
     <Compile Include="Assets\Script\ScoreItem.cs" />
+    <Compile Include="Assets\Script\StageCtrl.cs" />
     <Compile Include="Assets\Script\StageNum.cs" />
     <Compile Include="Assets\Script\Title.cs" />
     <Reference Include="UnityEngine">

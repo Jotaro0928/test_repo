@@ -19,7 +19,8 @@ public class FadeImage : MonoBehaviour
     /// </summary>
     public void StartFadeIn()
     {
-        if (fadeIn)
+        //Debug.Log("フェードイン開始");
+        if (fadeIn || fadeOut)
         {
             return;
         }
@@ -45,6 +46,7 @@ public class FadeImage : MonoBehaviour
     /// </summary>
     public void StartFadeOut()
     {
+        //Debug.Log("フェードアウト開始");
         if (fadeIn || fadeOut)
         {
             return;
@@ -99,6 +101,7 @@ public class FadeImage : MonoBehaviour
     //フェードイン中
     private void FadeInUpdate()
     {
+        //Debug.Log("フェードイン中");
         if (timer < 1f)
         {
             img.color = new Color(1, 1, 1, 1 - timer);
@@ -113,6 +116,7 @@ public class FadeImage : MonoBehaviour
     //フェードアウト中
     private void FadeOutUpdate()
     {
+        //Debug.Log("フェードアウト中");
         if (timer < 1f)
         {
             img.color = new Color(1, 1, 1, timer);
@@ -127,6 +131,7 @@ public class FadeImage : MonoBehaviour
     //フェードイン完了
     private void FadeInComplete()
     {
+        //Debug.Log("フェードイン完了!!!");
         img.color = new Color(1, 1, 1, 0);
         img.fillAmount = 0;
         img.raycastTarget = false;
@@ -137,6 +142,7 @@ public class FadeImage : MonoBehaviour
     //フェードアウト完了
     private void FadeOutComplete()
     {
+        //Debug.Log("フェードアウト完了!!!");
         img.color = new Color(1, 1, 1, 1);
         img.fillAmount = 1;
         img.raycastTarget = false;
