@@ -507,6 +507,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fade: {fileID: 585100622}
+  startSE: {fileID: 8300000, guid: c7929a3b6d0ec444c9bf3a5cb48365f8, type: 3}
 --- !u!114 &1498696492
 MonoBehaviour:
   m_ObjectHideFlags: 0

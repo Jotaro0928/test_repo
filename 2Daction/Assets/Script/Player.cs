@@ -14,6 +14,9 @@ public class Player : MonoBehaviour
     [Header("ダッシュの速さ表現")] public AnimationCurve dashCurve;
     [Header("ジャンプの速さ表現")] public AnimationCurve jumpCurve;
     [Header("踏みつけ判定の高さの割合(%)")] public float stepOnRate;
+    [Header("ジャンプする時に鳴らすSE")] public AudioClip jumpSE; //New!
+    [Header("やられた鳴らすSE")] public AudioClip downSE; //New
+    [Header("コンティニュー時に鳴らすSE")] public AudioClip continueSE;  //New
     #endregion
 
     #region//プライベート変数
@@ -74,6 +77,10 @@ public class Player : MonoBehaviour
         {
             if (verticalKey > 0)
             {
+                if(!isJump)
+                {
+                    GManager.instance.PlaySE(jumpSE);
+                }
                 ySpeed = jumpSpeed;
                 jumpPos = transform.position.y; //ジャンプした位置を記録する
                 isJump = true;
@@ -188,6 +195,7 @@ public class Player : MonoBehaviour
                 nonDownAnim = true;
             }
             isDown = true;
+            GManager.instance.PlaySE(downSE);
             GManager.instance.SubHeartNum();
         }
     }
@@ -273,6 +281,7 @@ public class Player : MonoBehaviour
     /// </summary>
     public void ContinuePlayer()
     {
+        GManager.instance.PlaySE(continueSE);
         isDown = false;
         anim.Play("player_stand");
         isJump = false;
