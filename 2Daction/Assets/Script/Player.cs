@@ -22,6 +22,8 @@ public class Player : MonoBehaviour
     #region//プライベート変数
     private Animator anim = null;
     private Rigidbody2D rb = null;
+    private SpriteRenderer sr = null;
+    private MoveObject moveObj = null;
     private CapsuleCollider2D capcol = null;
     private bool isGround = false;
     private bool isHead = false;
@@ -29,19 +31,20 @@ public class Player : MonoBehaviour
     private bool isOtherJump = false;
     private bool isRun = false;
     private bool isDown = false;
+    private bool isContinue = false;
+    private bool nonDownAnim = false;
     private float jumpPos = 0.0f;
     private float jumpTime = 0.0f;
     private float otherJumpHeight = 0.0f;
     private float dashTime = 0.0f;
     private float beforeKey = 0.0f;
-    private string enemyTag = "Enemy";
-    private bool isContinue = false;
     private float continueTime = 0.0f;
     private float blinkTime = 0.0f;
-    private SpriteRenderer sr = null;
-    private bool nonDownAnim = false;
+    private string enemyTag = "Enemy";
     private string deadAreaTag = "DeadArea";
     private string hitAreaTag = "HitArea";
+    private string moveFloorTag = "MoveFloor";
+    private string fallFloorTag = "FallFloor";
     #endregion
 
     /// <summary>
@@ -203,6 +206,62 @@ public class Player : MonoBehaviour
     #region//接触判定   
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        bool enemy = (collision.collider.tag == enemyTag);
+        bool moveFloor = (collision.collider.tag == moveFloorTag);
+        bool fallFloor = (collision.collider.tag == fallFloorTag);
+
+        if (enemy || moveFloor || fallFloor)
+        {
+            //踏みつけ判定になる高さ
+            float stepOnHeight = (capcol.size.y * (stepOnRate / 100f));
+
+            //踏みつけ判定のワールド座標
+            float judgePos = transform.position.y - (capcol.size.y / 2f) + stepOnHeight;
+
+            foreach (ContactPoint2D p in collision.contacts)
+            {
+                if (p.point.y < judgePos)
+                {
+                    if (enemy || fallFloor)
+                    {
+                        ObjectCollision o = collision.gameObject.GetComponent<ObjectCollision>();
+                        if (o != null)
+                        {
+                            if (enemy)
+                            {
+                                otherJumpHeight = o.boundHeight;    //踏んづけたものから跳ねる高さを取得する
+                                o.playerStepOn = true;        //踏んづけたものに対して踏んづけた事を通知する
+                                jumpPos = transform.position.y; //ジャンプした位置を記録する
+                                isOtherJump = true;
+                                isJump = false;
+                                jumpTime = 0.0f;
+                            }
+                            else if (fallFloor)
+                            {
+                                o.playerStepOn = true;
+                            }
+                        }
+                        else
+                        {
+                            Debug.Log("ObjectCollisionが付いてないよ!");
+                        }
+                    }
+                    else if (moveFloor)
+                    {
+                        moveObj = collision.gameObject.GetComponent<MoveObject>();
+                    }
+                }
+                else
+                {
+                    if (enemy)
+                    {
+                        ReceiveDamage(true);
+                        break;
+                    }
+                }
+            }
+        }
+        /*
         if (collision.collider.tag == enemyTag)
         {
             //踏みつけ判定になる高さ
@@ -232,17 +291,53 @@ public class Player : MonoBehaviour
                 else
                 {
                     //ダウンする
-                    /*
-                    anim.Play("player_down");
-                    isDown = true;*/
+                    
+                   // anim.Play("player_down");
+                    //isDown = true;
                     ReceiveDamage(true);
                     break;
                 }
             }
         }
+        //動く床
+        else if (collision.collider.tag == moveFloorTag)
+        {
+            //踏みつけ判定になる高さ
+            float stepOnHeight = (capcol.size.y * (stepOnRate / 100f));
+            //踏みつけ判定のワールド座標
+            float judgePos = transform.position.y - (capcol.size.y / 2f) + stepOnHeight;
+            foreach (ContactPoint2D p in collision.contacts)
+            {
+                //動く床に乗っている
+                if (p.point.y < judgePos)
+                {
+                    moveObj = collision.gameObject.GetComponent<MoveObject>();
+                }
+            }
+        }*/
+    }
+   
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.collider.tag == moveFloorTag)
+        {
+            //動く床から離れた
+            moveObj = null;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == deadAreaTag)
+        {
+            ReceiveDamage(false);
+        }
+        else if (collision.tag == hitAreaTag)
+        {
+            ReceiveDamage(true);
+        }
     }
     #endregion
-
     /// <summary>
     /// コンティニュー待機状態か
     /// </summary>
@@ -291,18 +386,7 @@ public class Player : MonoBehaviour
         nonDownAnim = false;
     }
     
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.tag == deadAreaTag)
-        {
-            ReceiveDamage(false);
-        }
-        else if (collision.tag == hitAreaTag)
-        {
-            ReceiveDamage(true);
-        }
-    }
-
+    
     void Start()
     {
         //コンポーネントのインスタンスを捕まえる
@@ -363,7 +447,13 @@ public class Player : MonoBehaviour
             SetAnimation();
 
             //移動速度を設定
-            rb.velocity = new Vector2(xSpeed, ySpeed);
+            //rb.velocity = new Vector2(xSpeed, ySpeed);
+            Vector2 addVelocity = Vector2.zero;
+            if (moveObj != null)
+            {
+                addVelocity = moveObj.GetVelocity();
+            }
+            rb.velocity = new Vector2(xSpeed, ySpeed) + addVelocity;
         }
         else
         {

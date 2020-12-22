@@ -16,6 +16,7 @@ public class Title : MonoBehaviour
         {
             //Debug.Log("Go Next Scene!");
             GManager.instance.PlaySE(startSE);
+            //フェードアウト
             fade.StartFadeOut();
             firstPush = true;
         }
@@ -24,6 +25,7 @@ public class Title : MonoBehaviour
     {
         if (!goNextScene && fade.IsFadeOutComplete())
         {
+            //ステージ1に移動
             SceneManager.LoadScene("Stage1");
             goNextScene = true;
         }

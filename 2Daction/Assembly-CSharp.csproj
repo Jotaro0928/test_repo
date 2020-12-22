@@ -66,9 +66,11 @@
     <Compile Include="Assets\Script\Enemy_Collision_Check.cs" />
     <Compile Include="Assets\Script\Enemy_Zako1.cs" />
     <Compile Include="Assets\Script\FadeImage.cs" />
+    <Compile Include="Assets\Script\FallDownFloor.cs" />
     <Compile Include="Assets\Script\GManager.cs" />
     <Compile Include="Assets\Script\GroundCheck.cs" />
     <Compile Include="Assets\Script\Heart.cs" />
+    <Compile Include="Assets\Script\MoveObject.cs" />
     <Compile Include="Assets\Script\ObjectCollision.cs" />
     <Compile Include="Assets\Script\Player.cs" />
     <Compile Include="Assets\Script\PlayerTriggerCheck.cs" />
