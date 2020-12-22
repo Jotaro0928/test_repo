@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class GroundCheck : MonoBehaviour
 {
-    private string groundTag = "Ground";
+    [Header("エフェクトがついた床を判定するか")] public bool checkPlatformGroud = true;
+
+    private string groundTag = "Ground";//地面
+    private string platformTag = "GroundPlatform";//すり抜ける床
+    private string moveFloorTag = "MoveFloor";//動く床
+    private string fallFloorTag = "FallFloor";//落下する床
     private bool isGround = false;
     private bool isGroundEnter, isGroundStay, isGroundExit;
 
@@ -33,6 +38,10 @@ public class GroundCheck : MonoBehaviour
         {
             isGroundEnter = true;
         }
+        else if (checkPlatformGroud && (collision.tag == platformTag || collision.tag == moveFloorTag || collision.tag == fallFloorTag))
+        {
+            isGroundEnter = true;
+        }
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -41,11 +50,19 @@ public class GroundCheck : MonoBehaviour
         {
             isGroundStay = true;
         }
+        else if (checkPlatformGroud && (collision.tag == platformTag || collision.tag == moveFloorTag || collision.tag == fallFloorTag))
+        {
+            isGroundStay = true;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.tag == groundTag)
+        {
+            isGroundExit = true;
+        }
+        else if (checkPlatformGroud && (collision.tag == platformTag || collision.tag == moveFloorTag || collision.tag == fallFloorTag))
         {
             isGroundExit = true;
         }
