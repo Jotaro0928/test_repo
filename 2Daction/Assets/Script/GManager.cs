@@ -12,7 +12,7 @@ public class GManager : MonoBehaviour
     [Header("デフォルトの残機")] public int defaultHeartNum;
     [HideInInspector] public bool isGameOver = false;
 
-   
+    private AudioSource audioSource = null;
 
     private void Awake()
     {
@@ -63,10 +63,26 @@ public class GManager : MonoBehaviour
         stageNum = 1;
         continueNum = 0;
     }
+
+    /// <summary>
+    /// SEを鳴らす
+    /// </summary>
+    public void PlaySE(AudioClip clip)
+    {
+        if (audioSource != null)
+        {
+            audioSource.PlayOneShot(clip);
+        }
+        else
+        {
+            Debug.Log("オーディオソースが設定されていません");
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
