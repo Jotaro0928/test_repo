@@ -9,21 +9,26 @@ public class StageCtrl : MonoBehaviour
     [Header("コンティニュー位置")] public GameObject[] continuePoint;
     [Header("ゲームオーバー")] public GameObject gameOverObj;
     [Header("フェード")] public FadeImage fade;
-    [Header("ゲームオーバー時に鳴らすSE")] public AudioClip gameOverSE; //New!
-    [Header("リトライ時に鳴らすSE")] public AudioClip retrySE; //New!
-
+    [Header("ゲームオーバー時に鳴らすSE")] public AudioClip gameOverSE; 
+    [Header("リトライ時に鳴らすSE")] public AudioClip retrySE; 
+    [Header("ステージクリアーSE")] public AudioClip stageClearSE;
+    [Header("ステージクリア")] public GameObject stageClearObj;
+    [Header("ステージクリア判定")] public PlayerTriggerCheck stageClearTrigger;
     private Player p;
     private int nextStageNum; 
     private bool startFade = false; 
     private bool doGameOver = false; 
     private bool retryGame = false; 
-    private bool doSceneChange = false; 
+    private bool doSceneChange = false;
+    private bool doClear = false;
+    private bool backTitle = false;
     // Start is called before the first frame update
     void Start()
     {
-        if (playerObj != null && continuePoint != null && continuePoint.Length > 0 && gameOverObj != null && fade != null)
+        if (playerObj != null && continuePoint != null && continuePoint.Length > 0 && gameOverObj != null && fade != null && stageClearObj !=null)
         {
             gameOverObj.SetActive(false);
+            stageClearObj.SetActive(false);
             playerObj.transform.position = continuePoint[0].transform.position;
             p = playerObj.GetComponent<Player>();
             if (p == null)
@@ -60,6 +65,11 @@ public class StageCtrl : MonoBehaviour
                 Debug.Log("コンティニューポイントの設定が足りてないよ！");
             }
         }
+        else if (stageClearTrigger != null && stageClearTrigger.isOn && !doGameOver && !doClear)
+        {
+            StageClear();
+            doClear = true;
+        }
         //ステージを切り替える
         if (fade != null && startFade && !doSceneChange)
         {
@@ -73,16 +83,24 @@ public class StageCtrl : MonoBehaviour
                 //次のステージ
                 else
                 {
-                    GManager.instance.stageNum = nextStageNum;
+                   GManager.instance.stageNum = nextStageNum;
                 }
-                SceneManager.LoadScene("Stage" + nextStageNum);
+                GManager.instance.isStageClear = false;
+                //SceneManager.LoadScene("Title");
+                //GManager.instance.RetryGame();
+                if (retryGame) SceneManager.LoadScene("Stage" + nextStageNum);
+                else
+                {
+                    GManager.instance.BackTitle();
+                    SceneManager.LoadScene("Title");
+                }
                 doSceneChange = true;
             }
         }
     }
 
     /// <summary>
-    /// 最初から始める New!
+    /// 最初から始める 
     /// </summary>
     public void Retry()
     {
@@ -90,7 +108,15 @@ public class StageCtrl : MonoBehaviour
         ChangeScene(1); //最初のステージに戻るので１
         retryGame = true;
     }
-
+    // <summary>
+    /// タイトルに戻る
+    /// </summary>
+    public void Titleback()
+    {
+        SceneManager.LoadScene("Title");
+        GManager.instance.BackTitle();
+        backTitle = true;
+    }
     /// <summary>
     /// ステージを切り替えます。
     /// </summary>
@@ -103,5 +129,14 @@ public class StageCtrl : MonoBehaviour
             fade.StartFadeOut();
             startFade = true;
         }
+    }
+    /// <summary>
+    /// ステージをクリアした
+    /// </summary>
+    public void StageClear()
+    {
+        GManager.instance.isStageClear = true;
+        stageClearObj.SetActive(true);
+        GManager.instance.PlaySE(stageClearSE);
     }
 }

@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class PlayerTriggerCheck : MonoBehaviour
 {
-    // 判定内にプレイヤーがいる
+    /// <summary>
+    /// 判定内にプレイヤーがいる
+    /// </summary>
     [HideInInspector] public bool isOn = false;
     private string playerTag = "Player";
 
