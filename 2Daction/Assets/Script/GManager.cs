@@ -10,8 +10,8 @@ public class GManager : MonoBehaviour
     [Header("現在の復帰位置")] public int continueNum;
     [Header("現在の残機")] public int heartNum;
     [Header("デフォルトの残機")] public int defaultHeartNum;
-    [HideInInspector] public bool isGameOver = false;
-
+    [HideInInspector] public bool isGameOver = false; //ゲームオーバー
+    [HideInInspector] public bool isStageClear = false; //ステージクリア
     private AudioSource audioSource = null;
 
     private void Awake()
@@ -63,6 +63,18 @@ public class GManager : MonoBehaviour
         stageNum = 1;
         continueNum = 0;
     }
+    /// <summary>
+    /// タイトルへ戻る時の処理
+    /// </summary>
+    public void BackTitle()
+    {
+        isGameOver = false;
+        heartNum = defaultHeartNum;
+        score = 0;
+        stageNum = 1;
+        continueNum = 0;
+    }
+
 
     /// <summary>
     /// SEを鳴らす

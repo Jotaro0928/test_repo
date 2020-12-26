@@ -33,6 +33,7 @@ public class Player : MonoBehaviour
     private bool isDown = false;
     private bool isContinue = false;
     private bool nonDownAnim = false;
+    private bool isClearMotion = false;
     private float jumpPos = 0.0f;
     private float jumpTime = 0.0f;
     private float otherJumpHeight = 0.0f;
@@ -47,6 +48,85 @@ public class Player : MonoBehaviour
     private string fallFloorTag = "FallFloor";
     #endregion
 
+    void Start()
+    {
+        //コンポーネントのインスタンスを捕まえる
+        anim = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
+        capcol = GetComponent<CapsuleCollider2D>();
+        sr = GetComponent<SpriteRenderer>();
+    }
+    private void Update()
+    {
+        if (isContinue)
+        {
+            //明滅　ついている時に戻る
+            if (blinkTime > 0.2f)
+            {
+                sr.enabled = true;
+                blinkTime = 0.0f;
+            }
+            //明滅　消えているとき
+            else if (blinkTime > 0.1f)
+            {
+                sr.enabled = false;
+            }
+            //明滅　ついているとき
+            else
+            {
+                sr.enabled = true;
+            }
+
+            //1秒たったら明滅終わり
+            if (continueTime > 1.0f)
+            {
+                isContinue = false;
+                blinkTime = 0f;
+                continueTime = 0f;
+                sr.enabled = true;
+            }
+            else
+            {
+                blinkTime += Time.deltaTime;
+                continueTime += Time.deltaTime;
+            }
+        }
+    }
+    void FixedUpdate()
+    {
+        if (!isDown && !GManager.instance.isGameOver)
+        {
+            //接地判定を得る
+            isGround = ground.IsGround();
+            isHead = head.IsGround();
+
+            //各種座標軸の速度を求める
+            float xSpeed = GetXSpeed();
+            float ySpeed = GetYSpeed();
+
+            //アニメーションを適用
+            SetAnimation();
+
+            //移動速度を設定
+            //rb.velocity = new Vector2(xSpeed, ySpeed);
+            Vector2 addVelocity = Vector2.zero;
+            if (moveObj != null)
+            {
+                addVelocity = moveObj.GetVelocity();
+            }
+            rb.velocity = new Vector2(xSpeed, ySpeed) + addVelocity;
+        }
+        else
+        {
+            if (!isClearMotion && GManager.instance.isStageClear)
+            {
+                anim.Play("player_win");
+                isClearMotion = true;
+            }
+            rb.velocity = new Vector2(0, -gravity);
+        }
+
+    }
     /// <summary>
     /// Y成分で必要な計算をし、速度を返す。
     /// </summary>
@@ -387,78 +467,5 @@ public class Player : MonoBehaviour
     }
     
     
-    void Start()
-    {
-        //コンポーネントのインスタンスを捕まえる
-        anim = GetComponent<Animator>();
-        rb = GetComponent<Rigidbody2D>();
-        capcol = GetComponent<CapsuleCollider2D>();
-        sr = GetComponent<SpriteRenderer>();
-    }
-    private void Update()
-    {
-        if (isContinue)
-        {
-            //明滅　ついている時に戻る
-            if (blinkTime > 0.2f)
-            {
-                sr.enabled = true;
-                blinkTime = 0.0f;
-            }
-            //明滅　消えているとき
-            else if (blinkTime > 0.1f)
-            {
-                sr.enabled = false;
-            }
-            //明滅　ついているとき
-            else
-            {
-                sr.enabled = true;
-            }
-
-            //1秒たったら明滅終わり
-            if (continueTime > 1.0f)
-            {
-                isContinue = false;
-                blinkTime = 0f;
-                continueTime = 0f;
-                sr.enabled = true;
-            }
-            else
-            {
-                blinkTime += Time.deltaTime;
-                continueTime += Time.deltaTime;
-            }
-        }
-    }
-    void FixedUpdate()
-    {
-        if (!isDown  && !GManager.instance.isGameOver)
-        {
-            //接地判定を得る
-            isGround = ground.IsGround();
-            isHead = head.IsGround();
-
-            //各種座標軸の速度を求める
-            float xSpeed = GetXSpeed();
-            float ySpeed = GetYSpeed();
-
-            //アニメーションを適用
-            SetAnimation();
-
-            //移動速度を設定
-            //rb.velocity = new Vector2(xSpeed, ySpeed);
-            Vector2 addVelocity = Vector2.zero;
-            if (moveObj != null)
-            {
-                addVelocity = moveObj.GetVelocity();
-            }
-            rb.velocity = new Vector2(xSpeed, ySpeed) + addVelocity;
-        }
-        else
-        {
-            rb.velocity = new Vector2(0, -gravity);
-        }
-    
-    }
+  
 }
