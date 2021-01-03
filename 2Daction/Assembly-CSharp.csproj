@@ -73,6 +73,7 @@
     <Compile Include="Assets\Script\GManager.cs" />
     <Compile Include="Assets\Script\GroundCheck.cs" />
     <Compile Include="Assets\Script\Heart.cs" />
+    <Compile Include="Assets\Script\JumpObject.cs" />
     <Compile Include="Assets\Script\MoveObject.cs" />
     <Compile Include="Assets\Script\ObjectCollision.cs" />
     <Compile Include="Assets\Script\Player.cs" />

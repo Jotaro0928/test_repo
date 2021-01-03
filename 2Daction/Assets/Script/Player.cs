@@ -37,6 +37,7 @@ public class Player : MonoBehaviour
     private float jumpPos = 0.0f;
     private float jumpTime = 0.0f;
     private float otherJumpHeight = 0.0f;
+    private float otherJumpSpeed = 0.0f;
     private float dashTime = 0.0f;
     private float beforeKey = 0.0f;
     private float continueTime = 0.0f;
@@ -46,6 +47,7 @@ public class Player : MonoBehaviour
     private string hitAreaTag = "HitArea";
     private string moveFloorTag = "MoveFloor";
     private string fallFloorTag = "FallFloor";
+    private string jumpStepTag = "JumpStep";
     #endregion
 
     void Start()
@@ -146,7 +148,8 @@ public class Player : MonoBehaviour
 
             if (canHeight && canTime && !isHead)
             {
-                ySpeed = jumpSpeed;
+                //ySpeed = jumpSpeed;
+                ySpeed = otherJumpSpeed;
                 jumpTime += Time.deltaTime;
             }
             else
@@ -289,8 +292,9 @@ public class Player : MonoBehaviour
         bool enemy = (collision.collider.tag == enemyTag);
         bool moveFloor = (collision.collider.tag == moveFloorTag);
         bool fallFloor = (collision.collider.tag == fallFloorTag);
+        bool jumpStep = (collision.collider.tag == jumpStepTag);
 
-        if (enemy || moveFloor || fallFloor)
+        if (enemy || moveFloor || fallFloor || jumpStep)
         {
             //踏みつけ判定になる高さ
             float stepOnHeight = (capcol.size.y * (stepOnRate / 100f));
@@ -302,14 +306,15 @@ public class Player : MonoBehaviour
             {
                 if (p.point.y < judgePos)
                 {
-                    if (enemy || fallFloor)
+                    if (enemy || fallFloor || jumpStep)
                     {
                         ObjectCollision o = collision.gameObject.GetComponent<ObjectCollision>();
                         if (o != null)
                         {
-                            if (enemy)
+                            if (enemy || jumpStep)
                             {
                                 otherJumpHeight = o.boundHeight;    //踏んづけたものから跳ねる高さを取得する
+                                otherJumpSpeed = o.jumpSpeed; //ジャンプするスピード
                                 o.playerStepOn = true;        //踏んづけたものに対して踏んづけた事を通知する
                                 jumpPos = transform.position.y; //ジャンプした位置を記録する
                                 isOtherJump = true;
