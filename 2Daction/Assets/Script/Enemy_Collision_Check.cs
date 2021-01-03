@@ -11,12 +11,13 @@ public class Enemy_Collision_Check : MonoBehaviour
 
     private string groundTag = "Ground";
     private string enemyTag = "Enemy";
-
+    private string jumpStepTag = "JumpStep";
+    private string hitAreaTag = "HitArea";
 
     #region//接触判定
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == groundTag || collision.tag == enemyTag)
+        if (collision.tag == groundTag || collision.tag == enemyTag || collision.tag == jumpStepTag || collision.tag == hitAreaTag)
         {
             isOn = true;
         }
@@ -24,7 +25,7 @@ public class Enemy_Collision_Check : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.tag == groundTag || collision.tag == enemyTag)
+        if (collision.tag == groundTag || collision.tag == enemyTag || collision.tag == jumpStepTag || collision.tag == hitAreaTag)
         {
             isOn = false;
         }
