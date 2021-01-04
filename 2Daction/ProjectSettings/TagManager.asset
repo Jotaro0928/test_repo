@@ -46,6 +46,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: BackGround
+    uniqueID: 2483679739
+    locked: 0
   - name: TileMap
     uniqueID: 3341562139
     locked: 0
