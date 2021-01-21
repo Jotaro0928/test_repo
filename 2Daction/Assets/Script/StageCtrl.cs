@@ -10,7 +10,8 @@ public class StageCtrl : MonoBehaviour
     [Header("ゲームオーバー")] public GameObject gameOverObj;
     [Header("フェード")] public FadeImage fade;
     [Header("ゲームオーバー時に鳴らすSE")] public AudioClip gameOverSE; 
-    [Header("リトライ時に鳴らすSE")] public AudioClip retrySE; 
+    [Header("リトライ時に鳴らすSE")] public AudioClip retrySE;
+    [Header("タイトルに戻る時に鳴らすSE")] public AudioClip titleSE;
     [Header("ステージクリアーSE")] public AudioClip stageClearSE;
     [Header("ステージクリア")] public GameObject stageClearObj;
     [Header("ステージクリア判定")] public PlayerTriggerCheck stageClearTrigger;
@@ -80,6 +81,11 @@ public class StageCtrl : MonoBehaviour
                 {
                     GManager.instance.RetryGame();
                 }
+                //タイトルへ戻る
+                else if (backTitle)
+                {
+                    GManager.instance.BackTitle();
+                }
                 //次のステージ
                 else
                 {
@@ -89,10 +95,13 @@ public class StageCtrl : MonoBehaviour
                 //SceneManager.LoadScene("Title");
                 //GManager.instance.RetryGame();
                 if (retryGame) SceneManager.LoadScene("Stage" + nextStageNum);
+                else if (backTitle) SceneManager.LoadScene("Title");
                 else
                 {
+                    /*
                     GManager.instance.BackTitle();
-                    SceneManager.LoadScene("Title");
+                    SceneManager.LoadScene("Title");*/
+                    SceneManager.LoadScene("Result");
                 }
                 doSceneChange = true;
             }
@@ -113,8 +122,9 @@ public class StageCtrl : MonoBehaviour
     /// </summary>
     public void Titleback()
     {
-        SceneManager.LoadScene("Title");
-        GManager.instance.BackTitle();
+        GManager.instance.PlaySE(titleSE);
+        if (fade != null)
+            ChangeScene(0);//タイトルに戻るので0
         backTitle = true;
     }
     /// <summary>

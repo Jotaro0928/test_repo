@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Script\ClearEffect.cs" />
+    <Compile Include="Assets\Script\ClearRank.cs" />
     <Compile Include="Assets\Script\ContinuePoint.cs" />
     <Compile Include="Assets\Script\Enemy_Collision_Check.cs" />
     <Compile Include="Assets\Script\Enemy_Zako1.cs" />
@@ -78,10 +79,13 @@
     <Compile Include="Assets\Script\ObjectCollision.cs" />
     <Compile Include="Assets\Script\Player.cs" />
     <Compile Include="Assets\Script\PlayerTriggerCheck.cs" />
+    <Compile Include="Assets\Script\ResultScore.cs" />
+    <Compile Include="Assets\Script\ResultTime.cs" />
     <Compile Include="Assets\Script\Score.cs" />
     <Compile Include="Assets\Script\ScoreItem.cs" />
     <Compile Include="Assets\Script\StageCtrl.cs" />
     <Compile Include="Assets\Script\StageNum.cs" />
+    <Compile Include="Assets\Script\Timer.cs" />
     <Compile Include="Assets\Script\Title.cs" />
     <None Include="Assets\BayatGames\Free Platform Game Assets\Readme.txt" />
     <Reference Include="UnityEngine">

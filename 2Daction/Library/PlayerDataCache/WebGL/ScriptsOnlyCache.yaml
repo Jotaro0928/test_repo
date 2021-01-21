@@ -2,6 +2,7 @@ ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
     - ClearEffect
+    - ClearRank
     - ContinuePoint
     - Enemy_Collision_Check
     - Enemy_Zako1
@@ -16,10 +17,13 @@ ScriptsOnlyBuild:
     - ObjectCollision
     - Player
     - PlayerTriggerCheck
+    - ResultScore
+    - ResultTime
     - Score
     - ScoreItem
     - StageCtrl
     - StageNum
+    - Timer
     - Title
     Cinemachine.dll:
     - Cinemachine.CinemachineBrain
@@ -43,8 +47,10 @@ ScriptsOnlyBuild:
     UnityEditor.Graphs.dll:
     - UnityEditor.Graphs.AnimationBlendTree.Graph
     - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.AnyStateNode
     - UnityEditor.Graphs.AnimationStateMachine.Graph
     - UnityEditor.Graphs.AnimationStateMachine.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.StateNode
     - UnityEditor.Graphs.AnimatorControllerTool
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
@@ -59,6 +65,71 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.Image
     - UnityEngine.UI.Text
   sceneClasses:
+    Assets/Scenes/Result.unity:
+    - Class: 1
+      Script: {instanceID: 0}
+    - Class: 4
+      Script: {instanceID: 0}
+    - Class: 20
+      Script: {instanceID: 0}
+    - Class: 21
+      Script: {instanceID: 0}
+    - Class: 28
+      Script: {instanceID: 0}
+    - Class: 48
+      Script: {instanceID: 0}
+    - Class: 81
+      Script: {instanceID: 0}
+    - Class: 82
+      Script: {instanceID: 0}
+    - Class: 83
+      Script: {instanceID: 0}
+    - Class: 104
+      Script: {instanceID: 0}
+    - Class: 108
+      Script: {instanceID: 0}
+    - Class: 114
+      Script: {instanceID: 11140}
+    - Class: 114
+      Script: {instanceID: 11158}
+    - Class: 114
+      Script: {instanceID: 11348}
+    - Class: 114
+      Script: {instanceID: 11856}
+    - Class: 114
+      Script: {instanceID: 12346}
+    - Class: 114
+      Script: {instanceID: 12458}
+    - Class: 114
+      Script: {instanceID: 12886}
+    - Class: 114
+      Script: {instanceID: 12944}
+    - Class: 114
+      Script: {instanceID: 13256}
+    - Class: 114
+      Script: {instanceID: 13362}
+    - Class: 114
+      Script: {instanceID: 69326}
+    - Class: 114
+      Script: {instanceID: 69334}
+    - Class: 114
+      Script: {instanceID: 69612}
+    - Class: 115
+      Script: {instanceID: 0}
+    - Class: 128
+      Script: {instanceID: 0}
+    - Class: 157
+      Script: {instanceID: 0}
+    - Class: 196
+      Script: {instanceID: 0}
+    - Class: 213
+      Script: {instanceID: 0}
+    - Class: 222
+      Script: {instanceID: 0}
+    - Class: 223
+      Script: {instanceID: 0}
+    - Class: 224
+      Script: {instanceID: 0}
     Assets/Scenes/Stage1.unity:
     - Class: 1
       Script: {instanceID: 0}
@@ -160,6 +231,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 13414}
     - Class: 114
       Script: {instanceID: 13442}
+    - Class: 114
+      Script: {instanceID: 19914}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -702,7 +775,7 @@ ScriptsOnlyBuild:
     className: CinemachineTargetGroup
   - hash:
       serializedVersion: 2
-      Hash: d24d8c432354e33c5926bc5641f457e3
+      Hash: 992078c634c2fbd40b618af41934ffc0
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: GManager
@@ -864,7 +937,7 @@ ScriptsOnlyBuild:
     className: CinemachineVolumeSettings
   - hash:
       serializedVersion: 2
-      Hash: b10443c9c5a4067f15b24eaa6933e018
+      Hash: a9fa19541cb09bc99486876c6238df4b
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: StageCtrl
@@ -1090,8 +1163,33 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: MoveObject
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Timer
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: ResultScore
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: ResultTime
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: ClearRank
   platform: 20
   scenePathNames:
   - Assets/Scenes/Title.unity
   - Assets/Scenes/Stage1.unity
-  playerPath: C:/Users/81701/Desktop/Unity_Build/2DAction
+  - Assets/Scenes/Result.unity
+  playerPath: C:/Users/81701/Desktop/Unity_Build/2DAction_v2

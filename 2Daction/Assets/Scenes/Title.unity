@@ -929,7 +929,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 3c33be140e3da654e922b504ddf00da5, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -1303,7 +1303,7 @@ PrefabInstance:
     - target: {fileID: 7228420341726292682, guid: 596d0cf07e2b5464a976b4e978f0a77f,
         type: 3}
       propertyPath: firstFadeInComp
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7228420341726292686, guid: 596d0cf07e2b5464a976b4e978f0a77f,
         type: 3}
@@ -1497,12 +1497,12 @@ PrefabInstance:
     - target: {fileID: 9154116913577140697, guid: 5c4d46519377c7d439aff87223fb9d72,
         type: 3}
       propertyPath: heartNum
-      value: 50
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 9154116913577140697, guid: 5c4d46519377c7d439aff87223fb9d72,
         type: 3}
       propertyPath: defaultHeartNum
-      value: 50
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5c4d46519377c7d439aff87223fb9d72, type: 3}
