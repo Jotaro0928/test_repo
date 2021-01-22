@@ -10,6 +10,7 @@ public class GManager : MonoBehaviour
     [Header("現在の復帰位置")] public int continueNum;
     [Header("現在の残機")] public int heartNum;
     [Header("デフォルトの残機")] public int defaultHeartNum;
+    [Header("プレイ時間")] public float time;
     [HideInInspector] public bool isGameOver = false; //ゲームオーバー
     [HideInInspector] public bool isStageClear = false; //ステージクリア
     private AudioSource audioSource = null;
@@ -62,6 +63,7 @@ public class GManager : MonoBehaviour
         score = 0;
         stageNum = 1;
         continueNum = 0;
+        time = 0;
     }
     /// <summary>
     /// タイトルへ戻る時の処理
@@ -71,8 +73,9 @@ public class GManager : MonoBehaviour
         isGameOver = false;
         heartNum = defaultHeartNum;
         score = 0;
-        stageNum = 1;
+        stageNum = 0;
         continueNum = 0;
+        time = 0;
     }
 
 
