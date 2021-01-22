@@ -135,7 +135,7 @@ public class StageCtrl : MonoBehaviour
     {
         if (fade != null)
         {
-            nextStageNum = num;
+            if(num!=0) nextStageNum = num;
             fade.StartFadeOut();
             startFade = true;
         }
